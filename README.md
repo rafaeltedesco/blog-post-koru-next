@@ -160,3 +160,16 @@ app/
 - Layout mobile-first
 - Design limpo e legível
 - Tipografia otimizada para leitura
+
+## Recursos Extras
+
+### Documentação
+
+- [Next.js 15 Docs](https://nextjs.org/docs) - Documentação oficial
+- [App Router](https://nextjs.org/docs/app) - Guia completo do App Router
+- [Server Components](https://nextjs.org/docs/app/building-your-application/rendering/server-components) - Server vs Client Components
+
+### Ferramentas
+
+- [Next.js DevTools](https://chrome.google.com/webstore/detail/nextjs-devtools) - Extension do Chrome
+- [Tailwind CSS IntelliSense](https://marketplace.visualstudio.com/items?itemName=bradlc.vscode-tailwindcss) - Extension do VSCode
