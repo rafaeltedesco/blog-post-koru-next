@@ -181,17 +181,19 @@ Este projeto foi publicado no GitHub Pages utilizando GitHub Actions. Abaixo est
 
 No arquivo next.config.js foi configurado basePath e assetPrefix para que o site funcione corretamente no GitHub Pages:
 
-import type { NextConfig } from "next";
+```typescript
+import type { NextConfig } from "next"
 
-const repoName = "blog-post-koru-next"; // nome do repositório no GitHub
+const repoName = "blog-post-koru-next" // nome do repositório no GitHub
 
 const nextConfig: NextConfig = {
-output: "export", // gera HTML estático
-basePath: process.env.NODE_ENV === "production" ? `/${repoName}` : "",
-assetPrefix: process.env.NODE_ENV === "production" ? `/${repoName}/` : "",
-};
+	output: "export", // gera HTML estático
+	basePath: process.env.NODE_ENV === "production" ? `/${repoName}` : "",
+	assetPrefix: process.env.NODE_ENV === "production" ? `/${repoName}/` : "",
+}
 
-export default nextConfig;
+export default nextConfig
+```
 
 ✅ Isso garante que todos os links e assets funcionem no GitHub Pages.
 
