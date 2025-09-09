@@ -34,7 +34,6 @@ jobs:
       - name: Build Next.js
         run: |
           npm run build
-          npm run export
 
       - name: Setup Pages
         uses: actions/configure-pages@v4
