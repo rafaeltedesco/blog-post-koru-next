@@ -1,5 +1,5 @@
 import { notFound } from 'next/navigation'
-import { getPostBySlug } from '@/lib/posts'
+import { getAllPosts, getPostBySlug } from '@/lib/posts'
 import LikeButton from '@/components/LikeButton'
 import Link from 'next/link'
 
@@ -7,6 +7,13 @@ interface PostPageProps {
   params: {
     slug: string
   }
+}
+
+export async function generateStaticParams() {
+  const posts = getAllPosts();
+  return posts.map((post)=> ({
+    slug: post.slug,
+  }))
 }
 
 export default async function PostPage({ params }: PostPageProps) {
