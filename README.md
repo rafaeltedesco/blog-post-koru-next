@@ -172,3 +172,143 @@ app/
 
 - [Next.js DevTools](https://chrome.google.com/webstore/detail/nextjs-devtools) - Extension do Chrome
 - [Tailwind CSS IntelliSense](https://marketplace.visualstudio.com/items?itemName=bradlc.vscode-tailwindcss) - Extension do VSCode
+
+# Como o Deploy foi realizado
+
+Este projeto foi publicado no GitHub Pages utilizando GitHub Actions. Abaixo estão os passos realizados:
+
+1. Configuração do Next.js
+
+No arquivo next.config.js foi configurado basePath e assetPrefix para que o site funcione corretamente no GitHub Pages:
+
+import type { NextConfig } from "next";
+
+const repoName = "blog-post-koru-next"; // nome do repositório no GitHub
+
+const nextConfig: NextConfig = {
+output: "export", // gera HTML estático
+basePath: process.env.NODE_ENV === "production" ? `/${repoName}` : "",
+assetPrefix: process.env.NODE_ENV === "production" ? `/${repoName}/` : "",
+};
+
+export default nextConfig;
+
+✅ Isso garante que todos os links e assets funcionem no GitHub Pages.
+
+2. Scripts do package.json
+
+Foram utilizados os seguintes scripts:
+
+"scripts": {
+"dev": "next dev --turbopack",
+"build": "next build --turbopack",
+"start": "next start",
+"lint": "eslint"
+}
+
+O script build gera a pasta out/ com os arquivos estáticos.
+
+3. Rotas dinâmicas
+
+Para páginas dinâmicas, como posts/[slug], foi adicionada a função generateStaticParams:
+
+export async function generateStaticParams() {
+const posts = getAllPosts();
+return posts.map((post) => ({
+slug: post.slug,
+}));
+}
+
+✅ Isso garante que todas as páginas dinâmicas sejam geradas no build.
+
+4. Workflow do GitHub Actions
+
+Foi criado o arquivo .github/workflows/deploy.yml com as etapas:
+
+- Instalar Node.js e dependências.
+
+- Rodar o build (npm run build).
+
+- Fazer upload da pasta out/.
+
+- Publicar no GitHub Pages.
+
+Conteúdo do workflow:
+
+```yaml
+name: Deploy Next.js to GitHub Pages
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: "pages"
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20.19"
+          cache: "npm"
+
+      - name: Install dependencies
+        run: npm ci --legacy-peer-deps
+
+      - name: Build Next.js
+        run: npm run build
+
+      - name: Setup Pages
+        uses: actions/configure-pages@v4
+
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: "./out"
+
+  deploy:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
+```
+
+5. Configuração do GitHub Pages
+
+No GitHub, vá até Settings → Pages.
+
+Em Build and Deployment, selecione:
+
+Source: GitHub Actions.
+
+Salve as configurações.
+
+Obs: Caso o Pages não esteja ativado. O Pipeline de deploy irá falhar. Lembre-se de ativá-lo primeiro ou após a ativação rode novamente o pipeline.
+
+6. Deploy final
+
+Após o push na branch main, o workflow roda automaticamente.
+O site fica disponível em:
+
+https://seu-usuario.github.io/blog-post-koru-next/
+
+✅ Agora, todas as alterações enviadas para main serão publicadas automaticamente no GitHub Pages.
