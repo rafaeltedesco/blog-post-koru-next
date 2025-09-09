@@ -35,7 +35,6 @@ The easiest way to deploy your Next.js app is to use the [Vercel Platform](https
 
 Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
 
-
 # Projeto - Blog Pessoal Simples (Next.js App Router)
 
 Vamos criar nosso **primeiro projeto Next.js** - um **blog pessoal simples** que demonstra os conceitos fundamentais de roteamento, Server Components e Client Components.
@@ -55,7 +54,7 @@ Vamos criar nosso **primeiro projeto Next.js** - um **blog pessoal simples** que
 <aside>
 💡
 
-Mesmo que alguns desses conceitos ainda não tenha sido explorado nas aulas teóricas, já podem ser apresentados aos alunos de forma simplificada. 
+Mesmo que alguns desses conceitos ainda não tenha sido explorado nas aulas teóricas, já podem ser apresentados aos alunos de forma simplificada.
 
 </aside>
 
